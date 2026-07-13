@@ -3,6 +3,8 @@ import Nav from './components/navigation/nav.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Routes, Route } from "react-router";
 import Login from './components/login/login.js';
+import Register from './components/register/register.js';
+
 function App() {
   return (
     <div>
@@ -14,6 +16,7 @@ function App() {
       <Route path="/contact" element="contact" />
       <Route path="*" element="404" />
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
     </Routes>
     </div>
   );

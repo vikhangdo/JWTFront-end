@@ -1,11 +1,11 @@
 import React from 'react';
-import login from './login.scss';
+import register from './register.scss';
 import { useNavigate } from "react-router-dom";
-function Login(props) {
+function Register(props) {
     const navigate = useNavigate();
     return (
         <div>
-            <div className="login-container">
+            <div className="register-container">
                 <div className='container'>
                     <div className='row m-3 m-sm-0'>
                         <div className='content-left col-sm-7 d-none d-sm-block d-sm-flex flex-column align-items-center justify-content-center'>
@@ -18,14 +18,17 @@ function Login(props) {
                             <div className='brand d-sm-none text-center font-weight-bold'>
                                 <h1>HoiDanIT</h1>
                             </div>
+                            <input type="email" placeholder='Email' className='form-control'/>
                             <input type="text" placeholder='Username' className='form-control'/>
+                            <input type="text" placeholder='Phone' className='form-control'/>
                             <input type="password" placeholder='Password' className='form-control'/>
-                            <button className='btn btn-primary'>Login</button>
-                            <span className='text-center'><a className='forgot-password' href="">Forgot Password?</a></span>
-                            <hr />
-                            <div className='text-center'>
+                            <input type="password" placeholder='Re-enter Password' className='form-control'/>
+                            <button className='btn btn-primary'>Register</button>
+                            <span className='text-center'><a className='forgot-password' href="/login">Have an account? Login</a></span>
+                            {/* <hr /> */}
+                            {/* <div className='text-center'>
                                 <button className='btn btn-success' onClick={() => navigate('/register')}>Create new account</button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
@@ -34,4 +37,4 @@ function Login(props) {
     );
 }
 
-export default Login;
+export default Register;
