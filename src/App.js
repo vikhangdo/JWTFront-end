@@ -2,6 +2,7 @@ import app from './App.scss';
 import Nav from './components/navigation/nav.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Routes, Route } from "react-router";
+import { ToastContainer} from 'react-toastify';
 import Login from './components/login/login.js';
 import Register from './components/register/register.js';
 
@@ -18,6 +19,18 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
     </Routes>
+
+    <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick={false}
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+/>
     </div>
   );
 }

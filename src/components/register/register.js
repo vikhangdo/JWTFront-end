@@ -1,8 +1,96 @@
 import React from 'react';
 import register from './register.scss';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState} from 'react';
+import axios from 'axios';
+
 function Register(props) {
-    const navigate = useNavigate();
+const [email, setEmail] = useState('');
+const [username, setUsername] = useState('');
+const [phone, setPhone] = useState('');
+const [password, setPassword] = useState('');
+const [rePassword, setRePassword] = useState('');
+
+
+let data = { email, username, phone, password, rePassword };
+const handleRegister = () => {
+
+        let check = isValid();
+        if(check){
+            axios.post('http://localhost:8080/api/v1/register',{
+                email, username, phone, password
+            })
+}
+}
+
+const isValidDefault =  {
+    isValidEmail: true,
+    isValidUsername: true,
+    isValidPhone: true,
+    isValidPassword: true,
+    isValidRePassword: true
+}
+const [ObjectValid, setObjectValid] = useState(isValidDefault);
+const isValid = ()  => {
+        setObjectValid(isValidDefault);
+
+        if(!email){
+            toast.error('Please enter your email');
+            return false;
+        }
+
+        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!regex.test(email)) {
+            setObjectValid({...ObjectValid, isValidEmail: false});
+            toast.error('Please enter a valid email address');
+            return false;
+        }
+
+        if(!username){
+            setObjectValid({...ObjectValid, isValidUsername: false});
+            toast.error('Please enter your username');
+            return false;
+        }
+
+
+        if(!phone){
+            setObjectValid({...ObjectValid, isValidPhone: false});
+            toast.error('Please enter your phone number');
+            return false;
+        }
+
+        
+        if(!password){
+            setObjectValid({...ObjectValid, isValidPassword: false});
+            toast.error('Please enter your password');
+            return false;
+        }
+
+
+        if(password !== rePassword){
+            setObjectValid({...ObjectValid, isValidRePassword: false});
+            toast.error('Password and Re-enter Password do not match');
+            return false;
+        }
+        toast.success('Register successfully');
+        return true;
+}
+
+
+
+// useEffect(() =>{
+//     // axios.get('http://localhost:8080/api/v1/register').then(data => {
+//     //     console.log(">>> check data:",data);
+//     // })
+
+
+// }, [])
+
+
+        
+    
     return (
         <div>
             <div className="register-container">
@@ -18,17 +106,23 @@ function Register(props) {
                             <div className='brand d-sm-none text-center font-weight-bold'>
                                 <h1>HoiDanIT</h1>
                             </div>
-                            <input type="email" placeholder='Email' className='form-control'/>
-                            <input type="text" placeholder='Username' className='form-control'/>
-                            <input type="text" placeholder='Phone' className='form-control'/>
-                            <input type="password" placeholder='Password' className='form-control'/>
-                            <input type="password" placeholder='Re-enter Password' className='form-control'/>
-                            <button className='btn btn-primary'>Register</button>
+                            <input type="email" placeholder='Email' className={ObjectValid.isValidEmail ? 'form-control' : 'form-control is-invalid'}
+                                value={email} onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <input type="text" placeholder='Username' className={ObjectValid.isValidUsername ? 'form-control' : 'form-control is-invalid'}
+                                value={username} onChange={(e) => setUsername(e.target.value)}
+                            />
+                            <input type="text" placeholder='Phone' className={ObjectValid.isValidPhone ? 'form-control' : 'form-control is-invalid'}
+                                value={phone} onChange={(e) => setPhone(e.target.value)}
+                            />
+                            <input type="password" placeholder='Password' className={ObjectValid.isValidPassword ? 'form-control' : 'form-control is-invalid'}
+                                value={password} onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <input type="password" placeholder='Re-enter Password' className={ObjectValid.isValidRePassword ? 'form-control' : 'form-control is-invalid'}
+                                value={rePassword} onChange={(e) => setRePassword(e.target.value)}
+                            />
+                            <button className='btn btn-primary' onClick={()=> handleRegister()}>Register</button>
                             <span className='text-center'><a className='forgot-password' href="/login">Have an account? Login</a></span>
-                            {/* <hr /> */}
-                            {/* <div className='text-center'>
-                                <button className='btn btn-success' onClick={() => navigate('/register')}>Create new account</button>
-                            </div> */}
                         </div>
                     </div>
                 </div>
