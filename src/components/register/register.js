@@ -4,7 +4,9 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState} from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import { registerUser } from "../../service/userService.js"
+
 
 function Register(props) {
 const [email, setEmail] = useState('');
@@ -12,17 +14,23 @@ const [username, setUsername] = useState('');
 const [phone, setPhone] = useState('');
 const [password, setPassword] = useState('');
 const [rePassword, setRePassword] = useState('');
-
+const navigate = useNavigate();
 
 let data = { email, username, phone, password, rePassword };
-const handleRegister = () => {
+const handleRegister = async () => {
 
         let check = isValid();
         if(check){
-            axios.post('http://localhost:8080/api/v1/register',{
-                email, username, phone, password
-            })
-}
+            let response = await registerUser(email, username, phone, password);
+            let serviceData = response.data;
+            if(+serviceData.EC === 0){
+                toast.success(serviceData.EM)
+                navigate('/login')
+            }else{
+                toast.error(serviceData.EM)
+            }
+            console.log(">>> Check result: ", response)
+        }               
 }
 
 const isValidDefault =  {
@@ -74,23 +82,10 @@ const isValid = ()  => {
             toast.error('Password and Re-enter Password do not match');
             return false;
         }
-        toast.success('Register successfully');
         return true;
 }
 
-
-
-// useEffect(() =>{
-//     // axios.get('http://localhost:8080/api/v1/register').then(data => {
-//     //     console.log(">>> check data:",data);
-//     // })
-
-
-// }, [])
-
-
-        
-    
+ 
     return (
         <div>
             <div className="register-container">
